@@ -214,74 +214,36 @@ The server provides detailed error messages for:
 
 ## Architecture
 
-This server uses a plugin-based architecture with the `metasearch` package:
+This server uses a plugin-based architecture with the external [`github.com/grokify/metasearch`](https://github.com/grokify/metasearch) package:
 
 ```
 /
-├── main.go                      # Main server and tool registration
-└── metasearch/                  # Metasearch package (can be moved to external package)
-    ├── types.go                 # Common interfaces and types
-    ├── metasearch.go           # Registry and utility functions
-    ├── serper/
-    │   └── serper.go           # Serper API implementation
-    └── serpapi/
-        └── serpapi.go          # SerpAPI implementation
+└── main.go                      # Main server and tool registration
 ```
 
 ### Metasearch Package
 
-The `metasearch` package is designed to be self-contained and can be easily moved to an external Go module. It includes:
+The server leverages the external [`github.com/grokify/metasearch`](https://github.com/grokify/metasearch) package which provides:
 
 - **Core interfaces** (`Engine`, `Registry`) for implementing search engines
 - **Common types** (`SearchParams`, `ScrapeParams`, `SearchResult`)
-- **Engine implementations** in subdirectories
+- **Engine implementations** for various search providers
 - **Registry management** for discovering and selecting engines
 
 ### Adding New Search Engines
 
-To add a new search engine:
+To add a new search engine, contribute to the [`github.com/grokify/metasearch`](https://github.com/grokify/metasearch) package:
 
-1. Create a new directory under `metasearch/` (e.g., `metasearch/newengine/`)
-2. Implement the `metasearch.Engine` interface
-3. Register the engine in `metasearch/metasearch.go`
-4. Add necessary environment variables and documentation
+1. Fork the metasearch repository
+2. Create a new engine implementation following the existing patterns
+3. Submit a pull request to the metasearch repository
 
-Example:
-```go
-// In metasearch/newengine/newengine.go
-package newengine
+### Using the Metasearch Package
 
-import "github.com/grokify/metasearch-mcp-server/metasearch"
-
-type Engine struct { /* ... */ }
-
-func New() (*Engine, error) { /* ... */ }
-
-func (e *Engine) GetName() string { return "newengine" }
-// ... implement other metasearch.Engine methods
-
-// In metasearch/metasearch.go
-import "github.com/grokify/metasearch-mcp-server/metasearch/newengine"
-
-func NewRegistry() *Registry {
-    // ...
-    if newEng, err := newengine.New(); err == nil {
-        registry.Register(newEng)
-    }
-    // ...
-}
-```
-
-### Using as External Package
-
-To use the metasearch package in your own project:
-
-1. Copy or import the `metasearch/` directory
-2. Update import paths to match your module
-3. Use the registry and engines in your application:
+The [`github.com/grokify/metasearch`](https://github.com/grokify/metasearch) package can be used in your own projects:
 
 ```go
-import "your-module/metasearch"
+import "github.com/grokify/metasearch"
 
 registry := metasearch.NewRegistry()
 engine, err := metasearch.GetDefaultEngine(registry)
