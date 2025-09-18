@@ -3,7 +3,7 @@ module github.com/grokify/metasearch-mcp-server
 go 1.24.5
 
 require (
-	github.com/grokify/metasearch v0.1.0
+	github.com/grokify/metasearch v0.1.1
 	github.com/modelcontextprotocol/go-sdk v0.5.0
 )
 

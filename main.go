@@ -7,12 +7,29 @@ import (
 	"log"
 
 	"github.com/grokify/metasearch"
+	"github.com/grokify/metasearch/serpapi"
+	"github.com/grokify/metasearch/serper"
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
 func main() {
 	// Initialize engine registry with all available engines
 	registry := metasearch.NewRegistry()
+
+	// Register available search engines
+	if serperEngine, err := serper.New(); err == nil {
+		registry.Register(serperEngine)
+		log.Printf("Registered Serper engine")
+	} else {
+		log.Printf("Failed to initialize Serper engine: %v", err)
+	}
+
+	if serpApiEngine, err := serpapi.New(); err == nil {
+		registry.Register(serpApiEngine)
+		log.Printf("Registered SerpAPI engine")
+	} else {
+		log.Printf("Failed to initialize SerpAPI engine: %v", err)
+	}
 
 	// Get the default/selected engine
 	searchEngine, err := metasearch.GetDefaultEngine(registry)
