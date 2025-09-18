@@ -50,6 +50,14 @@ This server provides comprehensive Google search capabilities through the follow
 
 ## Installation
 
+### Option 1: Install via `go install`
+
+```bash
+go install github.com/grokify/metasearch-mcp-server@latest
+```
+
+### Option 2: Build from source
+
 1. Clone or download this repository
 2. Set your API key(s) as environment variables:
    ```bash
