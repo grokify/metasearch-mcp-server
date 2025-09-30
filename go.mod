@@ -4,7 +4,7 @@ go 1.24.5
 
 require (
 	github.com/grokify/metasearch v0.1.1
-	github.com/modelcontextprotocol/go-sdk v0.8.0
+	github.com/modelcontextprotocol/go-sdk v1.0.0
 )
 
 require (
